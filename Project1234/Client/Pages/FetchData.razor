@@ -1,0 +1,49 @@
+﻿@page "/fetchdata"
+@using Project1234.Shared
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (student == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone num</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in student)
+            {
+                <tr>
+                    <td>@forecast.Id</td>
+                    <td>@forecast.Name</td>
+                    <td>@forecast.Address</td>
+                    <td>@forecast.Phone</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+   // private WeatherForecast[]? forecasts;
+    private Student[]? student;
+ 
+
+    protected override async Task OnInitializedAsync()
+    {
+        student = await Http.GetFromJsonAsync<Student[]>("api/Students");
+    }
+}

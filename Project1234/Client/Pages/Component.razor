@@ -1,0 +1,54 @@
+﻿<h3>Component</h3>
+@page "/StdForm"
+@using Project1234.Shared
+@inject HttpClient Http
+
+<h3>Here is Student Form</h3>
+
+<EditForm Model="@student" OnValidSubmit="@HandleOnSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+
+    <label>
+        Enter Student Id :
+        <InputNumber @bind-Value="student.Id" readonly/>
+    </label>
+    <br>
+    <label>
+        Enter Student Name :
+        <InputText @bind-Value="student.Name" />
+    </label>
+    <br>
+    <label>
+        Enter Student Address :
+        <InputText @bind-Value="student.Address" />
+    </label>
+    <br>
+    <label>
+        Enter Student Phone num :
+        <InputText @bind-Value="student.Phone" />
+    </label>
+    <br>
+    <button type="submit">Submit</button>
+
+
+
+</EditForm>
+
+@code {
+    Student student = new Student()
+        {
+        };
+
+    async void HandleOnSubmit()
+    {
+        //Process form data
+        var res = await Http.PostAsJsonAsync<Student>("api/Students", student);
+        //res.StatusCode=200
+
+
+    }
+
+}
